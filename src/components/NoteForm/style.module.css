@@ -1,0 +1,30 @@
+.container {
+  padding: 50px 25px;
+  background-color: white;
+  border-radius: 22px;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.submit_btn {
+  text-align: end;
+}
+
+.title_input {
+  max-width: 300px;
+  margin-bottom: 12px;
+}
+
+.content {
+  text-wrap: wrap;
+  overflow-y: overlay;
+  font-size: 16px;
+}
+
+.note_footer {
+  font-size: 12px;
+  font-style: italic;
+  color: #b8b8b8;
+}
