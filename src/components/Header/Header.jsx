@@ -18,8 +18,8 @@ export function Header() {
 
   function logout() {
     Cookies.remove('token');
+    localStorage.removeItem('loggedIn');
     dispatch(setLoggedIn(false));
-    localStorage.setItem('loggedIn', false);
     dispatch(setNoteList([]));
     navigate('/');
   }

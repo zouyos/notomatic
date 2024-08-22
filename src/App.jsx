@@ -16,7 +16,8 @@ export function App() {
   }
 
   useEffect(() => {
-    if (loggedIn || localStorage.getItem('loggedIn') === true) {
+    const storedLoggedIn = JSON.parse(localStorage.getItem('loggedIn'));
+    if (loggedIn || storedLoggedIn) {
       fetchAllNotes();
     }
   }, [loggedIn]);
