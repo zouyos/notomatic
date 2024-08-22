@@ -15,6 +15,7 @@ export function Login() {
     try {
       await NoteAPI.login(rest);
       dispatch(setLoggedIn(true));
+      localStorage.setItem('loggedIn', true);
       navigate('/');
     } catch (errs) {
       setServerErrors(errs.response.data || errs || errs.message);

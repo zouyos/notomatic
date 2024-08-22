@@ -1,10 +1,10 @@
-import { NoteAPI } from "api/note-api";
-import { Header } from "components/Header/Header";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
-import { setNoteList } from "store/note/note-slice";
-import style from "./style.module.css";
+import { NoteAPI } from 'api/note-api';
+import { Header } from 'components/Header/Header';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
+import { setNoteList } from 'store/note/note-slice';
+import style from './style.module.css';
 
 export function App() {
   const dispatch = useDispatch();
@@ -16,13 +16,13 @@ export function App() {
   }
 
   useEffect(() => {
-    if (loggedIn) {
+    if (loggedIn || localStorage.getItem('loggedIn') === true) {
       fetchAllNotes();
     }
   }, [loggedIn]);
 
   return (
-    <div className="container-fluid">
+    <div className='container-fluid'>
       <Header />
       <div className={style.outlet_container}>
         <Outlet />
