@@ -29,7 +29,7 @@ export function NoteForm({
   buttonLabel,
   errors,
 }) {
-  const decodedContent = he.decode(note?.content);
+  const decodedContent = note && he.decode(note.content); // Decode content if it exists
   const [formValues, setFormValues] = useState({
     title: note?.title || '',
     content: decodedContent || '',
@@ -66,6 +66,13 @@ export function NoteForm({
     });
   }, [errors]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Encode content before submitting
+    const encodedContent = he.encode(formValues.content);
+    onSubmit({ ...formValues, content: encodedContent });
+  };
+
   const titleInput = (
     <div className='mb-4'>
       <label className='form-label'>Title</label>
@@ -97,13 +104,7 @@ export function NoteForm({
 
   const submitButton = (
     <div className={style.submit_btn}>
-      <ButtonPrimary
-        onClick={(e) => {
-          e.preventDefault();
-          onSubmit(formValues);
-        }}
-        disabled={hasErrors()}
-      >
+      <ButtonPrimary onClick={handleSubmit} disabled={hasErrors()}>
         {buttonLabel}
       </ButtonPrimary>
     </div>

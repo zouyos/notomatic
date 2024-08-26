@@ -1,9 +1,9 @@
-import { NoteForm } from "components/NoteForm/NoteForm";
-import { NoteAPI } from "api/note-api";
-import { useDispatch } from "react-redux";
-import { addNote } from "store/note/note-slice";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { NoteForm } from 'components/NoteForm/NoteForm';
+import { NoteAPI } from 'api/note-api';
+import { useDispatch } from 'react-redux';
+import { addNote } from 'store/note/note-slice';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export function CreateNote() {
   const dispatch = useDispatch();
@@ -16,8 +16,9 @@ export function CreateNote() {
         ...formValues,
         created_at: new Date().toLocaleDateString(),
       });
+
       dispatch(addNote(createdNote));
-      navigate("/");
+      navigate('/');
       setErrors([]);
     } catch (errs) {
       setErrors(errs.response.data.errors);
@@ -25,13 +26,11 @@ export function CreateNote() {
   }
 
   return (
-    <>
-      <NoteForm
-        title="Create A Note"
-        onSubmit={createNote}
-        buttonLabel="Create"
-        errors={errors}
-      />
-    </>
+    <NoteForm
+      title='Create A Note'
+      onSubmit={createNote}
+      buttonLabel='Create'
+      errors={errors}
+    />
   );
 }
