@@ -27,7 +27,7 @@ export function CreateNote() {
 
   return (
     <NoteForm
-      title='Create A Note'
+      title='Create a note'
       onSubmit={createNote}
       buttonLabel='Create'
       errors={errors}

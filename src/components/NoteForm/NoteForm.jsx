@@ -29,10 +29,9 @@ export function NoteForm({
   buttonLabel,
   errors,
 }) {
-  const decodedContent = note && he.decode(note.content); // Decode content if it exists
   const [formValues, setFormValues] = useState({
-    title: note?.title || '',
-    content: decodedContent || '',
+    title: note ? he.decode(note.title) : '',
+    content: note ? he.decode(note.content) : '',
   });
   const [formErrors, setFormErrors] = useState({
     title: note?.title ? undefined : '',
@@ -68,9 +67,7 @@ export function NoteForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Encode content before submitting
-    const encodedContent = he.encode(formValues.content);
-    onSubmit({ ...formValues, content: encodedContent });
+    onSubmit(formValues);
   };
 
   const titleInput = (
@@ -139,7 +136,7 @@ export function NoteForm({
       {isEditable ? (
         contentInput
       ) : (
-        <pre className={style.content}>{decodedContent}</pre>
+        <pre className={style.content}>{he.decode(note.content)}</pre>
       )}
       {onSubmit && submitButton}
       {note && !isEditable && (

@@ -19,6 +19,7 @@ export function TextCard({
     e.stopPropagation();
   }
 
+  const decodedTitle = he.decode(title);
   const decodedContent = he.decode(content);
 
   return (
@@ -31,7 +32,7 @@ export function TextCard({
     >
       <Card.Body>
         <div className={style.header}>
-          <Card.Title className='text-break'>{title}</Card.Title>
+          <Card.Title className='text-break'>{decodedTitle}</Card.Title>
           <Trash
             size={20}
             onClick={onTrashClickStopPropagation}

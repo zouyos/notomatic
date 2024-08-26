@@ -4,6 +4,7 @@ import { NoteForm } from 'components/NoteForm/NoteForm';
 import { useState } from 'react';
 import { deleteNote, updateNote } from 'store/note/note-slice';
 import { NoteAPI } from 'api/note-api';
+import he from 'he';
 
 export function Note() {
   const { noteId } = useParams();
@@ -51,7 +52,7 @@ export function Note() {
       {note && (
         <NoteForm
           isEditable={isEditable}
-          title={isEditable ? 'Edit Note' : note.title}
+          title={isEditable ? 'Edit note' : he.decode(note.title)}
           note={note}
           onEditClick={() => setIsEditable(!isEditable)}
           onTrashClick={() => removeNote(note.id)}
