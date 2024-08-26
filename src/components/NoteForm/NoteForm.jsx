@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from 'react';
 import { ValidatorService } from 'services/form-validators';
 import { FieldError } from 'components/FieldError/FieldError';
+import he from 'he';
 
 const VALIDATORS = {
   title: (value) => {
@@ -28,9 +29,10 @@ export function NoteForm({
   buttonLabel,
   errors,
 }) {
+  const decodedContent = he.decode(note?.content);
   const [formValues, setFormValues] = useState({
     title: note?.title || '',
-    content: note?.content || '',
+    content: decodedContent || '',
   });
   const [formErrors, setFormErrors] = useState({
     title: note?.title ? undefined : '',
@@ -136,7 +138,7 @@ export function NoteForm({
       {isEditable ? (
         contentInput
       ) : (
-        <pre className={style.content}>{note.content}</pre>
+        <pre className={style.content}>{decodedContent}</pre>
       )}
       {onSubmit && submitButton}
       {note && !isEditable && (

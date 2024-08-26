@@ -2,6 +2,7 @@ import { Card } from 'react-bootstrap';
 import style from './style.module.css';
 import { useState } from 'react';
 import { Trash } from 'react-bootstrap-icons';
+import he from 'he';
 
 export function TextCard({
   title,
@@ -17,6 +18,8 @@ export function TextCard({
     onTrashClick();
     e.stopPropagation();
   }
+
+  const decodedContent = he.decode(content);
 
   return (
     <Card
@@ -42,7 +45,7 @@ export function TextCard({
           />
         </div>
         <Card.Subtitle className='mb-2 text-muted'>{subtitle}</Card.Subtitle>
-        <Card.Text className={style.content}>{content}</Card.Text>
+        <Card.Text className={style.content}>{decodedContent}</Card.Text>
       </Card.Body>
     </Card>
   );
