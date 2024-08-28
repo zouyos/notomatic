@@ -2,7 +2,7 @@ import { NoteAPI } from 'api/note-api';
 import { UserForm } from 'components/UserForm/UserForm';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { setLoggedIn } from 'store/auth/auth-slice';
 
 export function Login() {
@@ -22,5 +22,14 @@ export function Login() {
     }
   }
 
-  return <UserForm onSubmit={login} serverErrors={serverErrors} />;
+  return (
+    <>
+      <UserForm onSubmit={login} serverErrors={serverErrors} />
+      <div>
+        <div className='d-flex justify-content-center text-center'>
+          <Link to='/reset-password'>Forgot password?</Link>
+        </div>
+      </div>
+    </>
+  );
 }

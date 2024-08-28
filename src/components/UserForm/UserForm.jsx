@@ -1,10 +1,16 @@
-import { ValidatorService } from "services/form-validators";
-import style from "./style.module.css";
-import { useEffect, useState } from "react";
-import { FieldError } from "components/FieldError/FieldError";
-import { EnvelopeAt, ShieldLock } from "react-bootstrap-icons";
+import { ValidatorService } from 'services/form-validators';
+import style from './style.module.css';
+import { useEffect, useState } from 'react';
+import { FieldError } from 'components/FieldError/FieldError';
+import { EnvelopeAt, ShieldLock } from 'react-bootstrap-icons';
 
-export function UserForm({ signup, onSubmit, serverErrors }) {
+export function UserForm({
+  signup,
+  requestPwd,
+  resetPwd,
+  onSubmit,
+  serverErrors,
+}) {
   const VALIDATORS = {
     email: (value) => {
       return (
@@ -13,10 +19,12 @@ export function UserForm({ signup, onSubmit, serverErrors }) {
     },
     password: (value) => {
       return (
-        ValidatorService.min(value, 6) ||
-        ValidatorService.max(value, 30) ||
-        ValidatorService.passwordRegex(value) ||
-        (signup && ValidatorService.notSame(value, formValues.repeatPassword))
+        !requestPwd &&
+        (ValidatorService.min(value, 6) ||
+          ValidatorService.max(value, 30) ||
+          ValidatorService.passwordRegex(value) ||
+          (signup &&
+            ValidatorService.notSame(value, formValues.repeatPassword)))
       );
     },
     repeatPassword: (value) => {
@@ -25,15 +33,15 @@ export function UserForm({ signup, onSubmit, serverErrors }) {
   };
 
   const [formValues, setFormValues] = useState({
-    email: "",
-    password: "",
-    repeatPassword: signup && "",
+    email: '',
+    password: !requestPwd && '',
+    repeatPassword: signup && '',
   });
 
   const [formErrors, setFormErrors] = useState({
-    email: "",
-    password: "",
-    repeatPassword: signup && "",
+    email: '',
+    password: requestPwd ? undefined : '',
+    repeatPassword: signup && '',
   });
 
   function validate(fieldName, fieldValue) {
@@ -53,58 +61,77 @@ export function UserForm({ signup, onSubmit, serverErrors }) {
   }
 
   useEffect(() => {
-    validate("password", formValues.password);
+    validate('password', formValues.password);
   }, [formValues.repeatPassword]);
 
   useEffect(() => {
-    validate("repeatPassword", formValues.repeatPassword);
+    validate('repeatPassword', formValues.repeatPassword);
   }, [formValues.password]);
 
+  function generateTitle() {
+    switch (true) {
+      case signup:
+        return 'Sign Up';
+        break;
+      case requestPwd:
+        return 'Request Password Reset';
+        break;
+      case resetPwd:
+        return 'Password Reset';
+        break;
+      default:
+        return 'Login';
+        break;
+    }
+  }
+
   return (
-    <div className="row justify-content-center">
-      <div className="col-md-6 col-sm-12">
-        <h2>{signup ? "Sign Up" : "Log In"}</h2>
+    <div className='row justify-content-center'>
+      <div className='col-md-6 col-sm-12'>
+        <h2>{generateTitle()}</h2>
         <form
           className={`form-control my-4 border border-primary ${style.form}`}
         >
-          <div className="mb-3">
-            <EnvelopeAt size={20} color="#b8b8b8" className="mb-1 me-2" />
-            <label htmlFor="email" className="my-2">
+          <div className='mb-3'>
+            <EnvelopeAt size={20} color='#b8b8b8' className='mb-1 me-2' />
+            <label htmlFor='email' className='my-2'>
               Email
             </label>
             <input
-              type="text"
-              name="email"
+              type='text'
+              name='email'
               value={formValues.email}
               onChange={updateFormValues}
-              className="form-control"
+              className='form-control'
             />
             <FieldError msg={formErrors.email} />
           </div>
-          <div className="mb-3">
-            <ShieldLock size={20} color="#b8b8b8" className="mb-1 me-2" />
-            <label htmlFor="password" className="my-2">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={formValues.password}
-              onChange={updateFormValues}
-              className="form-control"
-            />
-            <FieldError msg={formErrors.password} />
-          </div>
+          {!requestPwd && (
+            <div className='mb-3'>
+              <ShieldLock size={20} color='#b8b8b8' className='mb-1 me-2' />
+              <label htmlFor='password' className='my-2'>
+                Password
+              </label>
+              <input
+                type='password'
+                name='password'
+                value={formValues.password}
+                onChange={updateFormValues}
+                className='form-control'
+              />
+              <FieldError msg={formErrors.password} />
+            </div>
+          )}
           {signup && (
-            <div className="mb-3">
-              <ShieldLock size={20} color="#b8b8b8" className="mb-1 me-2" />
-              <label htmlFor="repeatPassword" className="my-2">
+            <div className='mb-3'>
+              <ShieldLock size={20} color='#b8b8b8' className='mb-1 me-2' />
+              <label htmlFor='repeatPassword' className='my-2'>
                 Repeat Password
               </label>
               <input
-                type="password"
-                name="repeatPassword"
-                className="form-control"
+                type='password'
+                name='repeatPassword'
+                className='form-control'
                 value={formValues.repeatPassword}
                 onChange={updateFormValues}
               />

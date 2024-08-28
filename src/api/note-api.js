@@ -1,6 +1,6 @@
-import axios from "axios";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 export class NoteAPI {
   static formatId(note) {
@@ -13,7 +13,7 @@ export class NoteAPI {
   }
 
   static getUserIdFromToken() {
-    let token = Cookies.get("token");
+    let token = Cookies.get('token');
     if (token) {
       const decodedToken = jwtDecode(token);
       return decodedToken.userId;
@@ -115,6 +115,38 @@ export class NoteAPI {
         await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, user, {
           withCredentials: true,
         })
+      ).data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  static async requestPasswordReset(email) {
+    try {
+      return (
+        await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/auth/request-password-reset`,
+          email,
+          {
+            withCredentials: true,
+          }
+        )
+      ).data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  static async resetPassword(data) {
+    try {
+      return (
+        await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/auth/reset/${data.token}`,
+          data,
+          {
+            withCredentials: true,
+          }
+        )
       ).data;
     } catch (err) {
       throw err;
