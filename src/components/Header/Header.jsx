@@ -24,6 +24,8 @@ export function Header() {
     navigate('/');
   }
 
+  console.log('Token cookie:', Cookies.get('token'));
+
   return (
     <div className={`row ${style.container}`}>
       <div className='col-xs-12 col-sm-4 py-2 px-3'>

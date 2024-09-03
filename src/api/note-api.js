@@ -24,7 +24,7 @@ export class NoteAPI {
   static async create(note) {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/note/`,
+        `${process.env.REACT_APP_BACKEND_DOMAIN}/note/`,
         { ...note, userId: this.getUserIdFromToken() },
         {
           withCredentials: true,
@@ -39,7 +39,7 @@ export class NoteAPI {
   static async fetchAll() {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/note/`,
+        `${process.env.REACT_APP_BACKEND_DOMAIN}/note/`,
         {
           withCredentials: true,
         }
@@ -53,7 +53,7 @@ export class NoteAPI {
   static async fetchById(id) {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/note/${id}`,
+        `${process.env.REACT_APP_BACKEND_DOMAIN}/note/${id}`,
         {
           withCredentials: true,
         }
@@ -67,7 +67,7 @@ export class NoteAPI {
   static async update(note) {
     try {
       const response = await axios.patch(
-        `${process.env.REACT_APP_BASE_URL}/note/${note.id}`,
+        `${process.env.REACT_APP_BACKEND_DOMAIN}/note/${note.id}`,
         { ...note, userId: this.getUserIdFromToken() },
         {
           withCredentials: true,
@@ -82,7 +82,7 @@ export class NoteAPI {
   static async deleteById(id) {
     try {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/note/${id}`,
+        `${process.env.REACT_APP_BACKEND_DOMAIN}/note/${id}`,
         {
           withCredentials: true,
         }
@@ -97,7 +97,7 @@ export class NoteAPI {
     try {
       return (
         await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/auth/signup`,
+          `${process.env.REACT_APP_BACKEND_DOMAIN}/auth/signup`,
           user,
           {
             withCredentials: true,
@@ -112,9 +112,13 @@ export class NoteAPI {
   static async login(user) {
     try {
       return (
-        await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, user, {
-          withCredentials: true,
-        })
+        await axios.post(
+          `${process.env.REACT_APP_BACKEND_DOMAIN}/auth/login`,
+          user,
+          {
+            withCredentials: true,
+          }
+        )
       ).data;
     } catch (err) {
       throw err;
@@ -125,7 +129,7 @@ export class NoteAPI {
     try {
       return (
         await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/auth/request-password-reset`,
+          `${process.env.REACT_APP_BACKEND_DOMAIN}/auth/request-password-reset`,
           email,
           {
             withCredentials: true,
@@ -141,7 +145,7 @@ export class NoteAPI {
     try {
       return (
         await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/auth/reset/${data.token}`,
+          `${process.env.REACT_APP_BACKEND_DOMAIN}/auth/reset/${data.token}`,
           data,
           {
             withCredentials: true,
