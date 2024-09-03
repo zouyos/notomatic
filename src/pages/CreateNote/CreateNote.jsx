@@ -1,13 +1,14 @@
 import { NoteForm } from 'components/NoteForm/NoteForm';
 import { NoteAPI } from 'api/note-api';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addNote } from 'store/note/note-slice';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function CreateNote() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const loggedIn = useSelector((store) => store.AUTH.loggedIn);
   const [errors, setErrors] = useState([]);
 
   async function createNote(formValues) {
@@ -24,6 +25,12 @@ export function CreateNote() {
       setErrors(errs.response.data.errors);
     }
   }
+
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate('/');
+    }
+  }, [loggedIn]);
 
   return (
     <NoteForm

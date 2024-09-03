@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { NoteForm } from 'components/NoteForm/NoteForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { deleteNote, updateNote } from 'store/note/note-slice';
 import { NoteAPI } from 'api/note-api';
 import he from 'he';
@@ -16,6 +16,7 @@ export function Note() {
   const note = useSelector((store) =>
     store.NOTE.noteList.find((note) => note.id === noteId)
   );
+  const loggedIn = useSelector((store) => store.AUTH.loggedIn);
 
   const navigate = useNavigate();
 
@@ -46,6 +47,12 @@ export function Note() {
       navigate('/');
     }
   }
+
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate('/');
+    }
+  }, [loggedIn]);
 
   return (
     <>

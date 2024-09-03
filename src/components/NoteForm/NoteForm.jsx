@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { ValidatorService } from 'services/form-validators';
 import { FieldError } from 'components/FieldError/FieldError';
 import he from 'he';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const VALIDATORS = {
   title: (value) => {
@@ -29,6 +31,9 @@ export function NoteForm({
   buttonLabel,
   errors,
 }) {
+  const navigate = useNavigate();
+  const loggedIn = useSelector((store) => store.AUTH.loggedIn);
+
   const [formValues, setFormValues] = useState({
     title: note ? he.decode(note.title) : '',
     content: note ? he.decode(note.content) : '',
@@ -58,6 +63,11 @@ export function NoteForm({
     return Object.values(formErrors).some((error) => error !== undefined);
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formValues);
+  };
+
   useEffect(() => {
     setServerErrors({
       title: errors.find((err) => err.path === 'title')?.msg,
@@ -65,10 +75,11 @@ export function NoteForm({
     });
   }, [errors]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formValues);
-  };
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate('/');
+    }
+  }, [loggedIn]);
 
   const titleInput = (
     <div className='mb-4'>
