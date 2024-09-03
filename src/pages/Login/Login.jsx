@@ -18,7 +18,7 @@ export function Login() {
       localStorage.setItem('loggedIn', true);
       navigate('/');
     } catch (errs) {
-      setServerErrors(errs || errs.message);
+      setServerErrors(errs.response.data || errs || errs.message);
     }
   }
 
