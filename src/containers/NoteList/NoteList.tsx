@@ -1,14 +1,18 @@
 import { useDispatch } from 'react-redux';
-import { TextCard } from 'components/TextCard/TextCard';
+import { TextCard } from '../../components/TextCard/TextCard';
 import { useNavigate } from 'react-router-dom';
-import { NoteAPI } from 'api/note-api';
-import { deleteNote } from 'store/note/note-slice';
+import { NoteAPI } from '../../api/note-api';
+import { deleteNote } from '../../store/note/note-slice';
 
-export function NoteList({ noteList }) {
+type NoteListProps = {
+  noteList: any[];
+};
+
+export function NoteList({ noteList }: NoteListProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  async function removeNote(noteId) {
+  async function removeNote(noteId: string) {
     if (window.confirm('Delete note?')) {
       await NoteAPI.deleteById(noteId);
       dispatch(deleteNote(noteId));

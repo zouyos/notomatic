@@ -1,9 +1,14 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
+import { type User, type NoteType } from '../types/types';
+
+interface JwtPayload {
+  userId: string
+}
 
 export class NoteAPI {
-  static formatId(note) {
+  static formatId(note: NoteType) {
     if (note._id) {
       const { _id, ...rest } = note;
       return { id: _id.toString(), ...rest };
@@ -15,13 +20,13 @@ export class NoteAPI {
   static getUserIdFromToken() {
     let token = Cookies.get('token');
     if (token) {
-      const decodedToken = jwtDecode(token);
-      return decodedToken.userId;
+      const decodedToken: JwtPayload = jwtDecode(token);
+      return decodedToken?.userId;
     }
     return null;
   }
 
-  static async create(note) {
+  static async create(note: NoteType) {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/note/`,
@@ -50,7 +55,7 @@ export class NoteAPI {
     }
   }
 
-  static async fetchById(id) {
+  static async fetchById(id: string) {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/note/${id}`,
@@ -64,7 +69,7 @@ export class NoteAPI {
     }
   }
 
-  static async update(note) {
+  static async update(note: NoteType) {
     try {
       const response = await axios.patch(
         `${process.env.REACT_APP_BASE_URL}/note/${note.id}`,
@@ -79,7 +84,7 @@ export class NoteAPI {
     }
   }
 
-  static async deleteById(id) {
+  static async deleteById(id: string) {
     try {
       const response = await axios.delete(
         `${process.env.REACT_APP_BASE_URL}/note/${id}`,
@@ -93,7 +98,7 @@ export class NoteAPI {
     }
   }
 
-  static async signup(user) {
+  static async signup(user: User) {
     try {
       return (
         await axios.post(
@@ -109,7 +114,7 @@ export class NoteAPI {
     }
   }
 
-  static async login(user) {
+  static async login(user: User) {
     try {
       return (
         await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, user, {
@@ -121,7 +126,7 @@ export class NoteAPI {
     }
   }
 
-  static async requestPasswordReset(email) {
+  static async requestPasswordReset(email: string) {
     try {
       return (
         await axios.post(
@@ -137,7 +142,7 @@ export class NoteAPI {
     }
   }
 
-  static async resetPassword(data) {
+  static async resetPassword(data: any) {
     try {
       return (
         await axios.post(

@@ -1,8 +1,16 @@
-import { ValidatorService } from 'services/form-validators';
+import { ValidatorService } from '../../services/form-validators';
 import style from './style.module.css';
 import { useEffect, useState } from 'react';
-import { FieldError } from 'components/FieldError/FieldError';
+import { FieldError } from '../../components/FieldError/FieldError';
 import { EnvelopeAt, ShieldLock } from 'react-bootstrap-icons';
+
+type UserFormProps = {
+  signup?: boolean;
+  requestPwd?: boolean;
+  resetPwd?: boolean;
+  onSubmit: (formValues: any) => void;
+  serverErrors: any;
+};
 
 export function UserForm({
   signup,
@@ -10,14 +18,14 @@ export function UserForm({
   resetPwd,
   onSubmit,
   serverErrors,
-}) {
-  const VALIDATORS = {
-    email: (value) => {
+}: UserFormProps) {
+  const VALIDATORS: any = {
+    email: (value: string) => {
       return (
         ValidatorService.min(value, 3) || ValidatorService.emailRegex(value)
       );
     },
-    password: (value) => {
+    password: (value: string) => {
       return (
         !requestPwd &&
         (ValidatorService.min(value, 6) ||
@@ -27,33 +35,34 @@ export function UserForm({
             ValidatorService.notSame(value, formValues.repeatPassword)))
       );
     },
-    repeatPassword: (value) => {
+    repeatPassword: (value: string) => {
       return signup && ValidatorService.notSame(value, formValues.password);
     },
   };
 
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<any>({
     email: '',
     password: !requestPwd && '',
     repeatPassword: signup && '',
   });
 
-  const [formErrors, setFormErrors] = useState({
+  const [formErrors, setFormErrors] = useState<any>({
     email: '',
     password: requestPwd ? undefined : '',
     repeatPassword: signup && '',
   });
 
-  function validate(fieldName, fieldValue) {
+  function validate(fieldName: string, fieldValue: string) {
     setFormErrors({
       ...formErrors,
       [fieldName]: VALIDATORS[fieldName](fieldValue),
     });
   }
 
-  function updateFormValues(e) {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
-    validate(e.target.name, e.target.value);
+  function updateFormValues(e: React.FormEvent<HTMLInputElement>) {
+    const { name, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
+    setFormValues({ ...formValues, [name]: value });
+    validate(name, value);
   }
 
   function hasErrors() {
@@ -72,16 +81,12 @@ export function UserForm({
     switch (true) {
       case signup:
         return 'Sign Up';
-        break;
       case requestPwd:
         return 'Request Password Reset';
-        break;
       case resetPwd:
         return 'Password Reset';
-        break;
       default:
         return 'Login';
-        break;
     }
   }
 
@@ -153,7 +158,7 @@ export function UserForm({
           <FieldError msg={serverErrors.message} />
         ) : (
           <ul>
-            {serverErrors.errors?.map((err, i) => (
+            {serverErrors.errors?.map((err: any, i: number) => (
               <li key={i}>
                 <FieldError msg={err.msg} />
               </li>

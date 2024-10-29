@@ -1,20 +1,20 @@
-import { Logo } from 'components/Logo/Logo';
+import { Logo } from '../../components/Logo/Logo';
 import style from './style.module.css';
-import logo from 'assets/images/logo.png';
-import { ButtonPrimary } from 'components/ButtonPrimary/ButtonPrimary';
+import logo from '../../assets/images/logo.png';
+import { ButtonPrimary } from '../../components/ButtonPrimary/ButtonPrimary';
 import { useNavigate } from 'react-router-dom';
 import { BoxArrowInRight, Check } from 'react-bootstrap-icons';
-import { LogoutButton } from 'components/LogoutButton/LogoutButton';
+import { LogoutButton } from '../../components/LogoutButton/LogoutButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLoggedIn } from 'store/auth/auth-slice';
-import { setNoteList } from 'store/note/note-slice';
+import { setLoggedIn } from '../../store/auth/auth-slice';
+import { setNoteList } from '../../store/note/note-slice';
 import Cookies from 'js-cookie';
 
 export function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const loggedIn = useSelector((store) => store.AUTH.loggedIn);
+  const loggedIn = useSelector((store: any) => store.AUTH.loggedIn);
 
   function logout() {
     Cookies.remove('token');

@@ -1,4 +1,4 @@
-import { ButtonPrimary } from 'components/ButtonPrimary/ButtonPrimary';
+import { ButtonPrimary } from '../../components/ButtonPrimary/ButtonPrimary';
 import style from './style.module.css';
 import {
   PencilFill,
@@ -6,17 +6,28 @@ import {
   ArrowCounterclockwise,
 } from 'react-bootstrap-icons';
 import { useEffect, useState } from 'react';
-import { ValidatorService } from 'services/form-validators';
-import { FieldError } from 'components/FieldError/FieldError';
+import { ValidatorService } from '../../services/form-validators';
+import { FieldError } from '../../components/FieldError/FieldError';
 import he from 'he';
 
-const VALIDATORS = {
-  title: (value) => {
+const VALIDATORS: any = {
+  title: (value: string) => {
     return ValidatorService.min(value, 3) || ValidatorService.max(value, 50);
   },
-  content: (value) => {
+  content: (value: string) => {
     return ValidatorService.min(value, 3) || ValidatorService.max(value, 5000);
   },
+};
+
+type NoteFormProps = {
+  isEditable?: boolean;
+  title: string;
+  note?: any;
+  onEditClick?: undefined | (() => void);
+  onTrashClick?: undefined | (() => void);
+  onSubmit: null | ((formValues: any) => void);
+  buttonLabel?: string;
+  errors?: any[];
 };
 
 export function NoteForm({
@@ -28,7 +39,7 @@ export function NoteForm({
   onTrashClick,
   buttonLabel,
   errors,
-}) {
+}: NoteFormProps) {
   const [formValues, setFormValues] = useState({
     title: note ? he.decode(note.title) : '',
     content: note ? he.decode(note.content) : '',
@@ -38,20 +49,23 @@ export function NoteForm({
     content: note?.content ? undefined : '',
   });
   const [serverErrors, setServerErrors] = useState({
-    title: errors.find((err) => err.path === 'title')?.msg,
-    content: errors.find((err) => err.path === 'content')?.msg,
+    title: errors?.find((err) => err.path === 'title')?.msg,
+    content: errors?.find((err) => err.path === 'content')?.msg,
   });
 
-  function validate(fieldName, fieldValue) {
+  function validate(fieldName: string, fieldValue: string) {
     setFormErrors({
       ...formErrors,
       [fieldName]: VALIDATORS[fieldName](fieldValue),
     });
   }
 
-  function updateFormValues(e) {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
-    validate(e.target.name, e.target.value);
+  function updateFormValues(
+    e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { name, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
+    setFormValues({ ...formValues, [name]: value });
+    validate(name, value);
   }
 
   function hasErrors() {
@@ -60,14 +74,14 @@ export function NoteForm({
 
   useEffect(() => {
     setServerErrors({
-      title: errors.find((err) => err.path === 'title')?.msg,
-      content: errors.find((err) => err.path === 'content')?.msg,
+      title: errors?.find((err) => err.path === 'title')?.msg,
+      content: errors?.find((err) => err.path === 'content')?.msg,
     });
   }, [errors]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    onSubmit(formValues);
+    onSubmit && onSubmit(formValues);
   };
 
   const titleInput = (
@@ -88,7 +102,6 @@ export function NoteForm({
     <div className='mb-4'>
       <label className='form-label'>Content</label>
       <textarea
-        type='text'
         name='content'
         className='form-control'
         rows={12}

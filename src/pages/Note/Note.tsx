@@ -1,10 +1,11 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { NoteForm } from 'components/NoteForm/NoteForm';
+import { NoteForm } from '../../components/NoteForm/NoteForm';
 import { useState } from 'react';
-import { deleteNote, updateNote } from 'store/note/note-slice';
-import { NoteAPI } from 'api/note-api';
+import { deleteNote, updateNote } from '../../store/note/note-slice';
+import { NoteAPI } from '../../api/note-api';
 import he from 'he';
+import { type NoteType } from '../../types/types';
 
 export function Note() {
   const { noteId } = useParams();
@@ -13,16 +14,16 @@ export function Note() {
   // const foo = searchParams.get("foo"); // output "bar"
 
   const dispatch = useDispatch();
-  const note = useSelector((store) =>
-    store.NOTE.noteList.find((note) => note.id === noteId)
+  const note = useSelector((store: any) =>
+    store.NOTE.noteList.find((note: NoteType) => note.id === noteId)
   );
 
   const navigate = useNavigate();
 
   const [isEditable, setIsEditable] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState<any[]>();
 
-  async function submit(formValues) {
+  async function submit(formValues: any) {
     try {
       const updatedNote = await NoteAPI.update({
         ...formValues,
@@ -34,12 +35,12 @@ export function Note() {
       dispatch(updateNote(updatedNote));
       setIsEditable(false);
       setErrors([]);
-    } catch (errs) {
+    } catch (errs: any) {
       setErrors(errs.response.data.errors);
     }
   }
 
-  async function removeNote(noteId) {
+  async function removeNote(noteId: string) {
     if (window.confirm('Delete note ?')) {
       await NoteAPI.deleteById(noteId);
       dispatch(deleteNote(noteId));
@@ -56,7 +57,7 @@ export function Note() {
           note={note}
           onEditClick={() => setIsEditable(!isEditable)}
           onTrashClick={() => removeNote(note.id)}
-          onSubmit={isEditable && submit}
+          onSubmit={isEditable ? submit : null}
           buttonLabel='Edit'
           errors={errors}
         />

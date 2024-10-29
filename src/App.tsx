@@ -1,14 +1,14 @@
-import { NoteAPI } from 'api/note-api';
-import { Header } from 'components/Header/Header';
+import { NoteAPI } from './api/note-api';
+import { Header } from './components/Header/Header';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { setNoteList } from 'store/note/note-slice';
+import { setNoteList } from './store/note/note-slice';
 import style from './style.module.css';
 
 export function App() {
   const dispatch = useDispatch();
-  const loggedIn = useSelector((store) => store.AUTH.loggedIn);
+  const loggedIn = useSelector((store: any) => store.AUTH.loggedIn);
 
   async function fetchAllNotes() {
     const noteList = await NoteAPI.fetchAll();
@@ -16,7 +16,9 @@ export function App() {
   }
 
   useEffect(() => {
-    const storedLoggedIn = JSON.parse(localStorage.getItem('loggedIn'));
+    const storedLoggedIn: boolean | null = JSON.parse(
+      localStorage.getItem('loggedIn')
+    );
     if (loggedIn || storedLoggedIn) {
       fetchAllNotes();
     }

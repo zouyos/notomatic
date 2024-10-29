@@ -1,20 +1,24 @@
+import { type Note } from "../../types/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const noteSlice = createSlice({
   name: "noteSlice",
   initialState: {
-    noteList: [],
+    noteList: [] as Note[],
   },
   reducers: {
     setNoteList: (currentSlice, action) => {
       currentSlice.noteList = action.payload;
     },
     addNote: (currentSlice, action) => {
-      currentSlice.noteList.push(action.payload);
+      if (action.payload) {
+
+        currentSlice.noteList.push(action.payload);
+      }
     },
     updateNote: (currentSlice, action) => {
       const indexToUpdate = currentSlice.noteList.findIndex(
-        (note) => note.id === action.payload.id
+        (note: Note) => note.id === action.payload.id
       );
       currentSlice.noteList[indexToUpdate] = action.payload;
     },

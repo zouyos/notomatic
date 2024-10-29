@@ -4,17 +4,25 @@ import { useState } from 'react';
 import { Trash } from 'react-bootstrap-icons';
 import he from 'he';
 
+type TextCardProps = {
+  title: string;
+  subtitle: string;
+  content: string;
+  onCardClick: () => void;
+  onTrashClick: () => void;
+};
+
 export function TextCard({
   title,
   subtitle,
   content,
   onCardClick,
   onTrashClick,
-}) {
+}: TextCardProps) {
   const [isCardHovered, setIsCardHovered] = useState(false);
   const [isTrashHovered, setIsTrashHovered] = useState(false);
 
-  function onTrashClickStopPropagation(e) {
+  function onTrashClickStopPropagation(e: React.MouseEvent<SVGElement>) {
     onTrashClick();
     e.stopPropagation();
   }
