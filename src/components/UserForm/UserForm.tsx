@@ -8,7 +8,7 @@ type UserFormProps = {
   signup?: boolean;
   requestPwd?: boolean;
   resetPwd?: boolean;
-  onSubmit: (formValues: any) => void;
+  onSubmit: (formValues: any) => any;
   serverErrors: any;
 };
 
