@@ -8,7 +8,7 @@ import { useState } from 'react';
 export function CreateNote() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState<any>([]);
 
   async function createNote(formValues: any) {
     try {

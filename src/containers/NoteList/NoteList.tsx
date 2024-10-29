@@ -21,7 +21,7 @@ export function NoteList({ noteList }: NoteListProps) {
 
   return (
     <div className='row justify-content-center align-items-center'>
-      {noteList.map((note) => {
+      {noteList?.map((note) => {
         return (
           <TextCard
             key={note.id}

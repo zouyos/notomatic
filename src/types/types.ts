@@ -3,9 +3,10 @@ export type NoteType = {
   _id?: string,
   title: string,
   content: string,
-  created_at: string,
-  modified_at: string,
+  created_at: string | Date,
+  modified_at?: string | Date,
   userId: string,
+  __v?: number
 }
 
 export type User = {

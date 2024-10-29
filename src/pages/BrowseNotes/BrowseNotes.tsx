@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 export function BrowseNotes() {
   const [searchText, setSearchText] = useState('');
   const noteList = useSelector((store: any) => store.NOTE.noteList);
-  const filteredNoteList = noteList.filter((note: NoteType) => {
+  const filteredNoteList = noteList?.filter((note: NoteType) => {
     const containsTitle = note.title
       .toUpperCase()
       .includes(searchText.trim().toUpperCase());
