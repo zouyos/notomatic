@@ -49,7 +49,9 @@ export class NoteAPI {
           withCredentials: true,
         }
       );
-      return response.data.map((note: NoteType) => this.formatId(note));
+      return response.data.map((note: NoteType) => {
+        return this.formatId(note)
+    });
     } catch (err) {
       throw err;
     }
