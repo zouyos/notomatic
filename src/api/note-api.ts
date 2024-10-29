@@ -8,7 +8,7 @@ interface JwtPayload {
 }
 
 export class NoteAPI {
-  static formatId(note: NoteType) {
+  static formatId(note: any) {
     if (note._id) {
       const { _id, ...rest } = note;
       return { id: _id.toString(), ...rest };
@@ -49,9 +49,7 @@ export class NoteAPI {
           withCredentials: true,
         }
       );
-      return response.data.map((note: NoteType) => {
-        return this.formatId(note)
-    });
+      return response.data.map(this.formatId);
     } catch (err) {
       throw err;
     }
