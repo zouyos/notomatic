@@ -8,14 +8,14 @@ export class ValidatorService {
   }
 
   static emailRegex(value: string) {
-    const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const regex = /^[\w\-.!#$%&'*+/=?^_`{|}~]+$/;
     if (!regex.test(value)) {
       return "Please type a valid email format";
     }
   }
 
   static passwordRegex(value: string) {
-    const regex = /^(?=.*[A-Z])[A-Za-z0-9]+$/;
+    const regex = /^[\w\-.!#$%&'*+/=?^_`{|}~]+$/;
     if (!regex.test(value)) {
       return "Only letters (at least one uppercase) and numbers are allowed";
     }

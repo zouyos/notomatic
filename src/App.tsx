@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { setNoteList } from './store/note/note-slice';
 import style from './style.module.css';
+import { NoteType } from './types/types';
 
 export function App() {
   const dispatch = useDispatch();
   const loggedIn = useSelector((store: any) => store.AUTH.loggedIn);
 
   async function fetchAllNotes() {
-    const noteList = await NoteAPI.fetchAll();
+    const noteList: NoteType[] = await NoteAPI.fetchAll();
     dispatch(setNoteList(noteList));
   }
 
