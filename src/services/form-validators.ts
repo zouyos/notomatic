@@ -8,7 +8,7 @@ export class ValidatorService {
   }
 
   static emailRegex(value: string) {
-    const regex = /^[\w\-.!#$%&'*+/=?^_`{|}~]+$/;
+    const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (!regex.test(value)) {
       return "Please type a valid email format";
     }
