@@ -15,7 +15,7 @@ export class ValidatorService {
   }
 
   static passwordRegex(value: string) {
-    const regex = /^[\w\-.!#$%&'*+/=?^_`{|}~]+$/;
+    const regex = /^(?=.*[A-Z])[A-Za-z0-9]+$/;
     if (!regex.test(value)) {
       return "Only letters (at least one uppercase) and numbers are allowed";
     }
