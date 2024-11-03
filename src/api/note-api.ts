@@ -49,7 +49,8 @@ export class NoteAPI {
           withCredentials: true,
         }
       );
-      const data = response.data.forEach((note: NoteType, i: number) => {
+      const data = response.data
+      data.forEach((note: NoteType, i: number) => {
         data[i] = this.formatId(data[i])
       });
       return data;
