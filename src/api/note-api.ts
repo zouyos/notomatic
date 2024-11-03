@@ -43,7 +43,7 @@ export class NoteAPI {
 
   static async fetchAll() {
     try {
-      const response = await axios.get(
+      let response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/note/`,
         {
           withCredentials: true,
@@ -53,7 +53,7 @@ export class NoteAPI {
       data.forEach((note: NoteType, i: number) => {
         data[i] = this.formatId(data[i])
       });
-      return data;
+      return data
     } catch (err) {
       throw err;
     }
@@ -61,7 +61,7 @@ export class NoteAPI {
 
   static async fetchById(id: string) {
     try {
-      const response = await axios.get(
+      let response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/note/${id}`,
         {
           withCredentials: true,
@@ -75,7 +75,7 @@ export class NoteAPI {
 
   static async update(note: NoteType) {
     try {
-      const response = await axios.patch(
+      let response = await axios.patch(
         `${process.env.REACT_APP_BASE_URL}/note/${note.id}`,
         { ...note, userId: this.getUserIdFromToken() },
         {
@@ -90,7 +90,7 @@ export class NoteAPI {
 
   static async deleteById(id: string) {
     try {
-      const response = await axios.delete(
+      let response = await axios.delete(
         `${process.env.REACT_APP_BASE_URL}/note/${id}`,
         {
           withCredentials: true,
@@ -123,7 +123,6 @@ export class NoteAPI {
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, user, {
         withCredentials: true,
       })
-      console.log(res);
       return res.data;
     } catch (err) {
       throw err;
