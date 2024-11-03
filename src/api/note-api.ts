@@ -18,7 +18,7 @@ export class NoteAPI {
   }
 
   static getUserIdFromToken() {
-    let token = Cookies.get('token');
+    const token = Cookies.get('token');
     if (token) {
       const decodedToken: JwtPayload = jwtDecode(token);
       return decodedToken?.userId;
@@ -43,17 +43,13 @@ export class NoteAPI {
 
   static async fetchAll() {
     try {
-      let response = await axios.get(
+      const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/note/`,
         {
           withCredentials: true,
         }
       );
-      let data = response.data
-      data.forEach((note: NoteType, i: number) => {
-        data[i] = this.formatId(data[i])
-      });
-      return data
+      return response.data.map(this.formatId)
     } catch (err) {
       throw err;
     }
@@ -61,7 +57,7 @@ export class NoteAPI {
 
   static async fetchById(id: string) {
     try {
-      let response = await axios.get(
+      const response = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/note/${id}`,
         {
           withCredentials: true,
@@ -75,7 +71,7 @@ export class NoteAPI {
 
   static async update(note: NoteType) {
     try {
-      let response = await axios.patch(
+      const response = await axios.patch(
         `${process.env.REACT_APP_BASE_URL}/note/${note.id}`,
         { ...note, userId: this.getUserIdFromToken() },
         {
@@ -90,7 +86,7 @@ export class NoteAPI {
 
   static async deleteById(id: string) {
     try {
-      let response = await axios.delete(
+      const response = await axios.delete(
         `${process.env.REACT_APP_BASE_URL}/note/${id}`,
         {
           withCredentials: true,
