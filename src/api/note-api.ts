@@ -49,7 +49,11 @@ export class NoteAPI {
           withCredentials: true,
         }
       );
-      return response.data.map(this.formatId)
+      if (Array.isArray(response.data)) {
+        return response.data.map(this.formatId);
+      } else {
+        throw new Error("Expected an array but got something else");
+      }
     } catch (err) {
       throw err;
     }
