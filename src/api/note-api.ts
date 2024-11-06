@@ -98,7 +98,7 @@ export class NoteAPI {
     }
   }
 
-  static async signup(user: any) {
+  static async signup(user: User) {
     try {
       return (
         await axios.post(
@@ -114,7 +114,7 @@ export class NoteAPI {
     }
   }
 
-  static async login(user: any) {
+  static async login(user: User) {
     try {
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, user, {
         withCredentials: true,
@@ -141,7 +141,7 @@ export class NoteAPI {
     }
   }
 
-  static async resetPassword(data: any) {
+  static async resetPassword(data: User) {
     try {
       return (
         await axios.post(

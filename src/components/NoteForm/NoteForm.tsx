@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { ValidatorService } from '../../services/form-validators';
 import { FieldError } from '../../components/FieldError/FieldError';
 import he from 'he';
+import { NoteType } from 'src/types/types';
 
 const VALIDATORS: any = {
   title: (value: string) => {
@@ -22,7 +23,7 @@ const VALIDATORS: any = {
 type NoteFormProps = {
   isEditable?: boolean;
   title: string;
-  note?: any;
+  note?: NoteType;
   onEditClick?: undefined | (() => void);
   onTrashClick?: undefined | (() => void);
   onSubmit: null | ((formValues: any) => void);
@@ -139,7 +140,7 @@ export function NoteForm({
     </div>
   );
 
-  return (
+  return note ? (
     <form className={style.container}>
       <div className='d-flex justify-content-between flex-wrap'>
         <h2 className='mb-2 text-break'>{title}</h2>
@@ -152,15 +153,19 @@ export function NoteForm({
         <pre className={style.content}>{he.decode(note.content)}</pre>
       )}
       {onSubmit && submitButton}
-      {note && !isEditable && (
+      {!isEditable && (
         <div>
           <hr />
           <div className={style.note_footer}>
-            Created at {note.created_at}
-            {note.modified_at && <span> | Modified at {note.modified_at}</span>}
+            Created at {note.created_at as string}
+            {note.modified_at && (
+              <span> | Modified at {note.modified_at as string}</span>
+            )}
           </div>
         </div>
       )}
     </form>
+  ) : (
+    <p>No note found</p>
   );
 }

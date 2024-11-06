@@ -3,12 +3,13 @@ import style from './style.module.css';
 import { useEffect, useState } from 'react';
 import { FieldError } from '../../components/FieldError/FieldError';
 import { EnvelopeAt, ShieldLock } from 'react-bootstrap-icons';
+import { User } from 'src/types/types';
 
 type UserFormProps = {
   signup?: boolean;
   requestPwd?: boolean;
   resetPwd?: boolean;
-  onSubmit: (formValues: any) => any;
+  onSubmit: (formValues: User) => void;
   serverErrors: any;
 };
 

@@ -4,13 +4,14 @@ import { useDispatch } from 'react-redux';
 import { addNote } from '../../store/note/note-slice';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { NoteType } from 'src/types/types';
 
 export function CreateNote() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errors, setErrors] = useState<any>([]);
 
-  async function createNote(formValues: any) {
+  async function createNote(formValues: NoteType) {
     try {
       const createdNote = await NoteAPI.create({
         ...formValues,

@@ -4,13 +4,14 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { setLoggedIn } from '../../store/auth/auth-slice';
+import { User } from 'src/types/types';
 
 export function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [serverErrors, setServerErrors] = useState([]);
 
-  async function login(formValues: any) {
+  async function login(formValues: User) {
     const { repeatPassword, ...rest } = formValues;
     try {
       await NoteAPI.login(rest);

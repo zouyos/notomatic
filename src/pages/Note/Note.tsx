@@ -23,7 +23,7 @@ export function Note() {
   const [isEditable, setIsEditable] = useState(false);
   const [errors, setErrors] = useState<any[]>();
 
-  async function submit(formValues: any) {
+  async function submit(formValues: NoteType) {
     try {
       const updatedNote = await NoteAPI.update({
         ...formValues,

@@ -1,3 +1,4 @@
+import { User } from 'src/types/types';
 import { NoteAPI } from '../../api/note-api';
 import { UserForm } from '../../components/UserForm/UserForm';
 import { useState } from 'react';
@@ -7,10 +8,9 @@ export function RequestPasswordReset() {
   const navigate = useNavigate();
   const [serverErrors, setServerErrors] = useState([]);
 
-  async function requestPasswordReset(formValues: any) {
-    const { password, repeatPassword, ...rest } = formValues;
+  async function requestPasswordReset(formValues: User) {
     try {
-      await NoteAPI.requestPasswordReset(rest);
+      await NoteAPI.requestPasswordReset(formValues.email);
       navigate('/login');
     } catch (errs: any) {
       setServerErrors(errs.response.data || errs || errs.message);

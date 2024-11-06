@@ -1,3 +1,4 @@
+import { User } from 'src/types/types';
 import { NoteAPI } from '../../api/note-api';
 import { UserForm } from '../../components/UserForm/UserForm';
 import { useState } from 'react';
@@ -7,7 +8,7 @@ export function Signup() {
   const navigate = useNavigate();
   const [serverErrors, setServerErrors] = useState([]);
 
-  async function signup(formValues: any) {
+  async function signup(formValues: User) {
     try {
       await NoteAPI.signup(formValues);
       navigate('/login');
