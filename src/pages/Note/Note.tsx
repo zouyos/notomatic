@@ -36,7 +36,8 @@ export function Note() {
       setIsEditable(false);
       setErrors([]);
     } catch (errs: any) {
-      setErrors(errs.response.data.errors);
+      setErrors(errs.response?.data?.errors || [errs.message]);
+      console.error(errs);
     }
   }
 

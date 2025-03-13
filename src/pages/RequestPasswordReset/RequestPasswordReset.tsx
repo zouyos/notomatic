@@ -13,7 +13,8 @@ export function RequestPasswordReset() {
       await NoteAPI.requestPasswordReset(formValues.email);
       navigate('/login');
     } catch (errs: any) {
-      setServerErrors(errs.response.data || errs || errs.message);
+      setServerErrors(errs.response?.data?.errors || [errs.message]);
+      console.error(errs);
     }
   }
 

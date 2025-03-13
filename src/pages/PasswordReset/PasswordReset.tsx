@@ -15,7 +15,8 @@ export function PasswordReset() {
       await NoteAPI.resetPassword(data);
       navigate('/login');
     } catch (errs: any) {
-      setServerErrors(errs.response.data || errs || errs.message);
+      setServerErrors(errs.response?.data?.errors || [errs.message]);
+      console.error(errs);
     }
   }
 
