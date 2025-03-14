@@ -22,8 +22,7 @@ export function CreateNote() {
       navigate('/');
       setErrors([]);
     } catch (errs: any) {
-      setErrors(errs.response?.data?.errors || [errs.message]);
-      console.error(errs);
+      setErrors(errs.response.data.errors);
     }
   }
 
@@ -33,7 +32,6 @@ export function CreateNote() {
       onSubmit={createNote}
       buttonLabel='Create'
       errors={errors}
-      note={undefined}
     />
   );
 }

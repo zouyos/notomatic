@@ -45,18 +45,15 @@ export function NoteForm({
     title: note ? he.decode(note.title) : '',
     content: note ? he.decode(note.content) : '',
   });
-
   const [formErrors, setFormErrors] = useState({
     title: note?.title ? undefined : '',
     content: note?.content ? undefined : '',
   });
-
   const [serverErrors, setServerErrors] = useState({
     title: errors?.find((err) => err.path === 'title')?.msg,
     content: errors?.find((err) => err.path === 'content')?.msg,
   });
 
-  // Validate form inputs
   function validate(fieldName: string, fieldValue: string) {
     setFormErrors({
       ...formErrors,
@@ -143,7 +140,7 @@ export function NoteForm({
     </div>
   );
 
-  return note !== null ? (
+  return (
     <form className={style.container}>
       <div className='d-flex justify-content-between flex-wrap'>
         <h2 className='mb-2 text-break'>{title}</h2>
@@ -156,19 +153,15 @@ export function NoteForm({
         <pre className={style.content}>{note && he.decode(note.content)}</pre>
       )}
       {onSubmit && submitButton}
-      {!isEditable && (
+      {note && !isEditable && (
         <div>
           <hr />
           <div className={style.note_footer}>
-            Created at {note && (note.created_at as string)}
-            {note && note.modified_at && (
-              <span> | Modified at {note && (note.modified_at as string)}</span>
-            )}
+            Created at {note.created_at}
+            {note.modified_at && <span> | Modified at {note.modified_at}</span>}
           </div>
         </div>
       )}
     </form>
-  ) : (
-    <p>No note found</p> // This will show only when note is null or undefined
   );
 }

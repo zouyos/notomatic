@@ -19,8 +19,7 @@ export function Login() {
       localStorage.setItem('loggedIn', JSON.stringify(true));
       navigate('/');
     } catch (errs: any) {
-      setServerErrors(errs.response?.data?.errors || [errs.message]);
-      console.error(errs);
+      setServerErrors(errs.response.data || errs || errs.message);
     }
   }
 
